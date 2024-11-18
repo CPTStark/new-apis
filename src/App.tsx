@@ -1,7 +1,7 @@
 // import Icons from "./components/icons"
 // import { Input } from './components/ui/input'
 import SearchCnpj from "@/layouts/consulta-cnpj"
-import SearchIbge from "@/layouts/consulta-ibge";
+// import SearchIbge from "@/layouts/consulta-ibge";
 import SearchCep from "@/layouts/consulta-cep"
 import NationalHolidays from '@/layouts/feriados-nacionais'
 import DefaultPage from "../src/layouts/default-page";
@@ -38,7 +38,8 @@ function App() {
       case 1:
         return <SearchCnpj />
       case 2:
-        return <SearchIbge />
+        return <></>
+        // return <SearchIbge />
       case 3:
         return <SearchCep />
       case 4:
