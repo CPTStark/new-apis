@@ -6,7 +6,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import Loading from "@/components/loading";
 import { CnpjData } from '../interfaces/cnpj'
-  
+import FirstTitle from "@/components/first-title";
+import ModalCenter from "@/components/modal-center";
 
 function SearchCnpj() {
     const [isLoading, setIsLoading] = useState(false)
@@ -58,9 +59,9 @@ function SearchCnpj() {
 
     return (
         <>
-            <div className="w-full h-full flex flex-col px-9 py-10 gap-10">
+            <ModalCenter>
                 <div>
-                    <h1 className="text-2xl text-center">Cadastro Nacional da Pessoa Jurídica (CNPJ)</h1>
+                    <FirstTitle>Cadastro Nacional da Pessoa Jurídica (CNPJ)</FirstTitle>
                 </div>
                 <div className="w-full h-full flex flex-col gap-12">
                     <div className="flex items-center justify-center gap-3">
@@ -68,6 +69,11 @@ function SearchCnpj() {
                         <Button onClick={getCnpj}>Buscar</Button>
                     </div>
                     <div className="w-full h-full relative">
+                    {!modalCnpj && (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <img className="w-64" draggable="false" src="undraw_mobile_search_jxq5.svg" alt="" />
+                        </div>
+                    )}
                         {
                             modalCnpj && dadosCnpj && (
                                 <div className="w-full flex items-center justify-center">
@@ -181,7 +187,7 @@ function SearchCnpj() {
                         }
                     </div>
                 </div>
-            </div>
+            </ModalCenter>
         {isLoading && (
             <Loading />
         )}

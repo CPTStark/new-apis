@@ -1,9 +1,11 @@
 import { ChangeEvent, useState } from "react";
-import { CepData } from '../interfaces/ibge'
+import { CepData } from '../interfaces/cep'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import Loading from "@/components/loading";
+import FirstTitle from '@/components/first-title'
+import ModalCenter from "@/components/modal-center";
 
 function SearchCep() {
     const [isLoading, setIsLoading] = useState(false);
@@ -49,9 +51,9 @@ function SearchCep() {
 
    return (
     <>
-        <div className="w-full h-full flex flex-col px-9 py-10 gap-10">
+        <ModalCenter>
             <div>
-            <h1 className="text-2xl text-center">Código de Endereçamento Postal (CEP)</h1>
+                <FirstTitle>Código de Endereçamento Postal (CEP)</FirstTitle>
             </div>
             <div className="w-full h-full flex flex-col gap-12">
                 <div className="flex items-center justify-center gap-3">
@@ -59,8 +61,13 @@ function SearchCep() {
                     <Button onClick={getCep}>Buscar</Button>
                 </div>
                 <div className="w-full h-full">
+                    {!modalCep && (
+                        <div className="w-full h-full flex items-center justify-center">
+                            <img className="w-64" draggable='false' src="undraw_location_tracking_re_n3ok.svg" alt="" />
+                        </div>
+                    )}
                     {modalCep && (
-                        <Card className="w-96 m-auto">
+                        <Card className="w-[400px] m-auto">
                             <CardHeader>
                                 <CardTitle>Resultado da consulta CEP:</CardTitle>
                                 <CardDescription>{dataCep?.cep}</CardDescription>
@@ -83,12 +90,25 @@ function SearchCep() {
                                     <p>Rua</p>
                                     <span className="text-sm text-slate-700">{dataCep?.street ?? 'Indefinido'}</span>
                                 </div>
+                                <div className="bg-gray-100 p-2 rounded-lg">
+                                    <p>Coordenadas</p>
+                                    <ul className="ml-3">
+                                        <li className="flex items-center gap-2">
+                                            <p className="text-sm">Longitude:</p>
+                                            <span className="text-xs text-slate-700">{dataCep?.location?.coordinates?.longitude ?? 'Indefinido'}</span>
+                                        </li>
+                                        <li className="flex items-center gap-2">
+                                            <p className="text-sm">Latitude:</p>
+                                            <span className="text-xs text-slate-700">{dataCep?.location?.coordinates?.latitude ?? 'Indefinido'}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </CardContent>
                         </Card>
                     )}
                 </div>
             </div>
-        </div>
+        </ModalCenter>
         {isLoading && (
             <Loading/>
         )}

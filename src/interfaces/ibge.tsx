@@ -1,8 +1,4 @@
-export interface CepData {
-    cep: string
-    state: string
-    city: string
-    neighborhood: string
-    street: string
-    service: string
-  }
+export interface IbgeData {
+    nome: string;
+    codigo_ibge: string
+}
