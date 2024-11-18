@@ -95,6 +95,9 @@ function SearchIbge() {
             </div>
             <div className="flex items-center justify-center">
                 <h1 className="font-bold text-5xl">Em desenvolvimento...</h1>
+                {city && (
+                    <></>
+                )}
             </div>
             {isLoading && (
                 <Loading />
