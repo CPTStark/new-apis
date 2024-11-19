@@ -16,11 +16,11 @@ interface Estados {
 }
 
 function SearchIbge() {
-    const [isLoading, setIsLoading] = useState(false)
-    const [state, setStateSelect] = useState('')
-    const [cities, setCities ] = useState<IbgeData[] | null>(null)
-    const [modalOpen, setModalOpen] = useState(false)
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [state, setStateSelect] = useState('');
+    const [cities, setCities ] = useState<IbgeData[] | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [inputValue, setInputValue] = useState('')
       
     const estados: Estados[] = [
     { id: 1, nome: "Acre", uf: "AC" },
@@ -52,11 +52,15 @@ function SearchIbge() {
     { id: 27, nome: "Tocantins", uf: "TO" }
     ];
 
-      const handleChange = (value: string) => {
-        setStateSelect(value)
-      }
+    const handleChange = (value: string) => {
+    setStateSelect(value)
+    }
+
+    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+    };
       
-      async function getCitys() {
+    async function getCitys() {
         setIsLoading(true)
         setModalOpen(false)
 
@@ -64,14 +68,13 @@ function SearchIbge() {
             const response = await fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${state}?providers=dados-abertos-br,gov,wikipedia`);
             const data = await response.json()
             setCities(data)
-            console.log(data)
             setModalOpen(true)
         } catch (err) {
             console.log(err)
         } finally {
             setIsLoading(false)
         }
-      }
+    }
 
     return (
         <ModalCenter>
@@ -93,7 +96,7 @@ function SearchIbge() {
                     </Select>
                 </div>
                 <div className="flex gap-4">
-                    <Input placeholder="Filtre pela cidade (Opcional)" className="w-[200px]"/>
+                    <Input onChange={(event) => handleInput(event)} placeholder="Filtre pela cidade (Opcional)" className="w-[200px]" />
                     <Button onClick={getCitys}>Buscar</Button>
                 </div>
             </div>
@@ -108,15 +111,17 @@ function SearchIbge() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {cities?.map((item) => {
-                                    return (
+                            {cities
+                                ?.filter((item) => 
+                                    inputValue === '' || item?.nome.toLowerCase().includes(inputValue.toLowerCase())
+                                )
+                                .map((item) => (
                                     <TableRow key={item?.nome}>
                                         <TableCell>{item?.nome}</TableCell>
                                         <TableCell>{item?.codigo_ibge}</TableCell>
                                     </TableRow>
-                                    )
-                                }) }
-                            </TableBody>
+                                ))}
+                        </TableBody>
                         </Table>
                     </div>
                 )}
