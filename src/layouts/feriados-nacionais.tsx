@@ -12,17 +12,24 @@ import Loading from "@/components/loading"
 import { Holidays } from "@/interfaces/holidays"
 import { Table, TableHeader, TableRow } from "@/components/ui/table"
 import FirstTitle from "@/components/first-title"
-import ModalCenter from "@/components/modal-center"
+import dayjs from 'dayjs'
+
+import 'dayjs/locale/pt-br'
+
+dayjs.locale('pt-br')
 
 function NationalHolidays() {
     const [isLoading, setIsLoading] = useState(false);
     const [tableHolidays, setIsTableHolidays] = useState(false)
     const [selectedYear, setSelectedYear] = useState('2024');
     const [dataHolidays, setDataHolidays] = useState<Holidays[] | null>(null)
+    
+    const date = new Date()
+    const yearCurrent = date.getFullYear()
 
     const years = []
 
-    for(let year = 2000; year <= 2050; year++) {
+    for(let year = 2000; year <= 2100; year++) {
         years.push(year)
     }
 
@@ -52,13 +59,12 @@ function NationalHolidays() {
 
     return(
         <>
-            <ModalCenter>
                 <div>
                     <FirstTitle>Feriados Nacionais</FirstTitle>
                 </div> 
                 <div className="flex items-center justify-center gap-6">
                     <div className="w-72">
-                        <Select defaultValue={'2024'} onValueChange={handleChange}>
+                        <Select defaultValue={String(yearCurrent)} onValueChange={handleChange}>
                             <SelectTrigger>
                                 <SelectValue/>
                             </SelectTrigger>
@@ -69,7 +75,7 @@ function NationalHolidays() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button variant={'ghost'} onClick={() => getHolidays()}>Filtrar</Button>
+                    <Button onClick={() => getHolidays()}>Filtrar</Button>
                 </div>
                 <div className="w-full h-full">
                     {!tableHolidays && (
@@ -79,20 +85,24 @@ function NationalHolidays() {
                     )}
                     {tableHolidays && (
                         <div className="w-full h-full">
-                            <div className="w-[75%] m-auto h-auto p-4 border border-gray-300 rounded-md">
+                            <div className="w-[75%] m-auto h-auto p-2 border border-gray-300 rounded-md">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead>Data</TableHead>
+                                            <TableHead>Dia da semana</TableHead>
                                             <TableHead>Feriado</TableHead>
                                             <TableHead>Tipo</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {dataHolidays?.map((data) => {
+                                            const weekDay = dayjs(data.date).format('dddd')
+
                                             return (
                                                 <TableRow>
-                                                    <TableCell>{data?.date.split('-').reverse().join('-')}</TableCell>
+                                                    <TableCell>{data?.date.split('-').reverse().join('/')}</TableCell>
+                                                    <TableCell className="capitalize">{weekDay}</TableCell>
                                                     <TableCell>{data?.name}</TableCell>
                                                     {data?.type === 'national' ? <TableCell>Nacional</TableCell> : 'Indefinido'}
                                                 </TableRow>
@@ -104,7 +114,6 @@ function NationalHolidays() {
                         </div>
                     )}
                 </div>
-            </ModalCenter>
             {isLoading && (
                 <Loading/>
             )}

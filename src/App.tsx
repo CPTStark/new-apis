@@ -38,7 +38,6 @@ function App() {
       case 1:
         return <SearchCnpj />
       case 2:
-        
         return <SearchIbge />
       case 3:
         return <SearchCep />
@@ -51,12 +50,17 @@ function App() {
 
   return (
       <div className="w-screen h-screen flex relative">
-        <div className="absolute right-3 top-3">
+        <div className="absolute right-3 top-3 flex gap-3 items-center">
+          <div>
+            <a href="https://www.linkedin.com/in/gabrielprestesperez/" target="blank_" className="hover:border-b-2 hover:border-purple-500 transition-colors">
+              Contato
+            </a>
+          </div>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
           <ModeToggle/>
         </ThemeProvider>
         </div>
-        <div className="w-52 h-full bg-zinc-200 flex flex-col items-center gap-3">
+        <div className="w-52 h-full bg-sidebar flex flex-col items-center gap-3">
 
           {/* Em breve será feito o input de pesquisa */}
 
@@ -64,18 +68,22 @@ function App() {
             <Input placeholder="Pesquisar..." className="max-w-full text-sm px-7" />
             <Icons name="search" size={20} className="text-gray-400 absolute" />
           </div> */}
+          <div>
+          </div>
           <nav className="w-full flex flex-col gap-1 px-3 mt-6">
             {
               items.map(item => (
                 <>
-                  <a key={item.id} href="#" onClick={() => handleItemClick(item.id)} className={`w-full rounded-md hover:bg-gray-300 py-2 text-gray-700 text-center ${item.current ? 'bg-gray-300' : ''}`}>{item.name}</a>
+                  <a key={item.id} href="#" onClick={() => handleItemClick(item.id)} className={`w-full rounded-md hover:bg-sidebarhover py-2 text-sidebartext text-center ${item.current ? 'bg-sidebarhover' : ''}`}>{item.name}</a>
                 </>
               ))
             }
           </nav>
         </div>
-        <div className="w-full h-full bg-slate-50">
-          {renderComponent()} 
+        <div className="w-full h-full">
+          <div className="w-full h-full flex flex-col px-9 py-10 gap-10">
+            {renderComponent()} 
+          </div>
         </div>
       </div>
   )

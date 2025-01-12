@@ -15,6 +15,10 @@ export default {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			sidebar: 'hsl(var(--sidebar))',
+			sidebarhover: 'hsl(var(--sidebar-hover))',
+			sidebartext: 'hsl(var(--sidebar-text))',
+			cardcard: 'hsl(var(--card-card))',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

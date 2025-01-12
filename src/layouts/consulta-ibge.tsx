@@ -5,13 +5,15 @@ import { Table, TableBody, TableHead, TableHeader, TableRow, TableCell } from "@
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import FirstTitle from "@/components/first-title"
-import ModalCenter from "@/components/modal-center"
 import Loading from "@/components/loading"
 import { IbgeData } from "@/interfaces/ibge"
+import { Toaster } from "@/components/ui/toaster"
+import { useToast } from "@/hooks/use-toast"
+
 
 interface Estados {
     id: number;
-    nome: string;
+    name: string;
     uf: string;
 }
 
@@ -21,39 +23,41 @@ function SearchIbge() {
     const [cities, setCities ] = useState<IbgeData[] | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [inputValue, setInputValue] = useState('')
+
+    const { toast } = useToast()
       
     const estados: Estados[] = [
-    { id: 1, nome: "Acre", uf: "AC" },
-    { id: 2, nome: "Alagoas", uf: "AL" },
-    { id: 3, nome: "Amapá", uf: "AP" },
-    { id: 4, nome: "Amazonas", uf: "AM" },
-    { id: 5, nome: "Bahia", uf: "BA" },
-    { id: 6, nome: "Ceará", uf: "CE" },
-    { id: 7, nome: "Distrito Federal", uf: "DF" },
-    { id: 8, nome: "Espírito Santo", uf: "ES" },
-    { id: 9, nome: "Goiás", uf: "GO" },
-    { id: 10, nome: "Maranhão", uf: "MA" },
-    { id: 11, nome: "Mato Grosso", uf: "MT" },
-    { id: 12, nome: "Mato Grosso do Sul", uf: "MS" },
-    { id: 13, nome: "Minas Gerais", uf: "MG" },
-    { id: 14, nome: "Pará", uf: "PA" },
-    { id: 15, nome: "Paraíba", uf: "PB" },
-    { id: 16, nome: "Paraná", uf: "PR" },
-    { id: 17, nome: "Pernambuco", uf: "PE" },
-    { id: 18, nome: "Piauí", uf: "PI" },
-    { id: 19, nome: "Rio de Janeiro", uf: "RJ" },
-    { id: 20, nome: "Rio Grande do Norte", uf: "RN" },
-    { id: 21, nome: "Rio Grande do Sul", uf: "RS" },
-    { id: 22, nome: "Rondônia", uf: "RO" },
-    { id: 23, nome: "Roraima", uf: "RR" },
-    { id: 24, nome: "Santa Catarina", uf: "SC" },
-    { id: 25, nome: "São Paulo", uf: "SP" },
-    { id: 26, nome: "Sergipe", uf: "SE" },
-    { id: 27, nome: "Tocantins", uf: "TO" }
+        { id: 1, name: "Acre", uf: "AC" },
+        { id: 2, name: "Alagoas", uf: "AL" },
+        { id: 3, name: "Amapá", uf: "AP" },
+        { id: 4, name: "Amazonas", uf: "AM" },
+        { id: 5, name: "Bahia", uf: "BA" },
+        { id: 6, name: "Ceará", uf: "CE" },
+        { id: 7, name: "Distrito Federal", uf: "DF" },
+        { id: 8, name: "Espírito Santo", uf: "ES" },
+        { id: 9, name: "Goiás", uf: "GO" },
+        { id: 10, name: "Maranhão", uf: "MA" },
+        { id: 11, name: "Mato Grosso", uf: "MT" },
+        { id: 12, name: "Mato Grosso do Sul", uf: "MS" },
+        { id: 13, name: "Minas Gerais", uf: "MG" },
+        { id: 14, name: "Pará", uf: "PA" },
+        { id: 15, name: "Paraíba", uf: "PB" },
+        { id: 16, name: "Paraná", uf: "PR" },
+        { id: 17, name: "Pernambuco", uf: "PE" },
+        { id: 18, name: "Piauí", uf: "PI" },
+        { id: 19, name: "Rio de Janeiro", uf: "RJ" },
+        { id: 20, name: "Rio Grande do Norte", uf: "RN" },
+        { id: 21, name: "Rio Grande do Sul", uf: "RS" },
+        { id: 22, name: "Rondônia", uf: "RO" },
+        { id: 23, name: "Roraima", uf: "RR" },
+        { id: 24, name: "Santa Catarina", uf: "SC" },
+        { id: 25, name: "São Paulo", uf: "SP" },
+        { id: 26, name: "Sergipe", uf: "SE" },
+        { id: 27, name: "Tocantins", uf: "TO" }
     ];
 
     const handleChange = (value: string) => {
-    setStateSelect(value)
+        setStateSelect(value)
     }
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,8 +69,16 @@ function SearchIbge() {
         setModalOpen(false)
 
         try {
+            if(state === '') {
+                toast({
+                    description: `Por favor, selecione um estado`
+                })
+                return
+            }
+
             const response = await fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${state}?providers=dados-abertos-br,gov,wikipedia`);
             const data = await response.json()
+
             setCities(data)
             setModalOpen(true)
         } catch (err) {
@@ -77,7 +89,8 @@ function SearchIbge() {
     }
 
     return (
-        <ModalCenter>
+        <>
+            <Toaster/>
             <div>
                 <FirstTitle>Instituto Brasileiro de Geografia e Estatística (Código IBGE)</FirstTitle>
             </div>
@@ -90,7 +103,7 @@ function SearchIbge() {
                         </SelectTrigger>
                         <SelectContent>
                             {estados.map((item) => {
-                                return <SelectItem key={item.id} value={item.uf}>{item.nome}</SelectItem>
+                                return <SelectItem key={item.id} value={item.uf}>{item.name}</SelectItem>
                             })}
                         </SelectContent>
                     </Select>
@@ -134,7 +147,7 @@ function SearchIbge() {
             {isLoading && (
                 <Loading />
             )}
-        </ModalCenter>
+        </>
     )
 }
 

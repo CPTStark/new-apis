@@ -5,13 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import Loading from "@/components/loading";
 import FirstTitle from '@/components/first-title'
-import ModalCenter from "@/components/modal-center";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/hooks/use-toast";
 
 function SearchCep() {
     const [isLoading, setIsLoading] = useState(false);
     const [cepInputValue, setIsCnpjInputValue] = useState('')
     const [dataCep, setIsDataCep] = useState<CepData | null>(null)
     const [modalCep, setIsModalCep] = useState(false)
+
+    const { toast } = useToast()
 
     function formatCep(value: string) {
         const onlyNumbers = value.replace(/\D/g, '');
@@ -31,7 +34,9 @@ function SearchCep() {
 
     async function getCep() {
         if(cepInputValue === '') {
-            alert('Digite um CNPJ')
+            toast({
+                description: 'Digite um CEP válido'
+            })
             return
         } 
 
@@ -43,7 +48,9 @@ function SearchCep() {
             setIsDataCep(data)
             setIsModalCep(true)
         } catch(err) {
-            console.log(err)
+            toast({
+                description: `Erro: ${err}`
+            })
         } finally {
             setIsLoading(false)
         }
@@ -51,7 +58,6 @@ function SearchCep() {
 
    return (
     <>
-        <ModalCenter>
             <div>
                 <FirstTitle>Código de Endereçamento Postal (CEP)</FirstTitle>
             </div>
@@ -74,32 +80,32 @@ function SearchCep() {
                                 <div className="border-b-2 border-gray-300"></div>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-3">
-                                <div className="bg-gray-100 p-2 rounded-lg">
-                                    <p>Estado</p>
-                                    <span className="text-sm text-slate-700">{dataCep?.state ?? 'Indefinido'}</span>
+                                <div className="bg-cardcard p-2 rounded-lg">
+                                    <p className="font-medium">Estado</p>
+                                    <span className="text-sm">{dataCep?.state ?? 'Indefinido'}</span>
                                 </div>
-                                <div className="bg-gray-100 p-2 rounded-lg">
-                                    <p>Cidade</p>
-                                    <span className="text-sm text-slate-700">{dataCep?.city ?? 'Indefinido'}</span>
+                                <div className="bg-cardcard p-2 rounded-lg">
+                                    <p className="font-medium">Cidade</p>
+                                    <span className="text-sm">{dataCep?.city ?? 'Indefinido'}</span>
                                 </div>
-                                <div className="bg-gray-100 p-2 rounded-lg">
-                                    <p>Bairro</p>
-                                    <span className="text-sm text-slate-700">{dataCep?.neighborhood ?? 'Indefinido'}</span>
+                                <div className="bg-cardcard p-2 rounded-lg">
+                                    <p className="font-medium">Bairro</p>
+                                    <span className="text-sm">{dataCep?.neighborhood ?? 'Indefinido'}</span>
                                 </div>
-                                <div className="bg-gray-100 p-2 rounded-lg">
-                                    <p>Rua</p>
-                                    <span className="text-sm text-slate-700">{dataCep?.street ?? 'Indefinido'}</span>
+                                <div className="bg-cardcard p-2 rounded-lg">
+                                    <p className="font-medium">Rua</p>
+                                    <span className="text-sm">{dataCep?.street ?? 'Indefinido'}</span>
                                 </div>
-                                <div className="bg-gray-100 p-2 rounded-lg">
-                                    <p>Coordenadas</p>
+                                <div className="bg-cardcard p-2 rounded-lg">
+                                    <p className="font-medium">Coordenadas</p>
                                     <ul className="ml-3">
                                         <li className="flex items-center gap-2">
                                             <p className="text-sm">Longitude:</p>
-                                            <span className="text-xs text-slate-700">{dataCep?.location?.coordinates?.longitude ?? 'Indefinido'}</span>
+                                            <span className="text-xs">{dataCep?.location?.coordinates?.longitude ?? 'Indefinido'}</span>
                                         </li>
                                         <li className="flex items-center gap-2">
                                             <p className="text-sm">Latitude:</p>
-                                            <span className="text-xs text-slate-700">{dataCep?.location?.coordinates?.latitude ?? 'Indefinido'}</span>
+                                            <span className="text-xs">{dataCep?.location?.coordinates?.latitude ?? 'Indefinido'}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -108,10 +114,10 @@ function SearchCep() {
                     )}
                 </div>
             </div>
-        </ModalCenter>
         {isLoading && (
             <Loading/>
         )}
+        <Toaster/>
     </>
    ) 
 }

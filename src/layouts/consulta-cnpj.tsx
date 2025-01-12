@@ -7,13 +7,16 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from 
 import Loading from "@/components/loading";
 import { CnpjData } from '../interfaces/cnpj'
 import FirstTitle from "@/components/first-title";
-import ModalCenter from "@/components/modal-center";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 function SearchCnpj() {
     const [isLoading, setIsLoading] = useState(false)
     const [cnpjInputValue, setIsCnpjInputValue] = useState('')
     const [dadosCnpj, setIsDadosCnpj] = useState<CnpjData | null>(null)
     const [modalCnpj, setIsModalCnpj] = useState(false)
+
+    const { toast } = useToast()
 
     function formatCnpj(value: string) {
         const onlyNumbers = value.replace(/\D/g, '');
@@ -37,10 +40,12 @@ function SearchCnpj() {
       }
 
     async function getCnpj() {
-        if(cnpjInputValue === '') {
-            alert('Digite um CNPJ')
+        if(cnpjInputValue === '' || cnpjInputValue.length < 14) {
+            toast({
+                description: 'Digite um CNPJ válido'
+            })
             return
-        } 
+        }
 
         setIsModalCnpj(false);
         setIsLoading(true);
@@ -59,7 +64,7 @@ function SearchCnpj() {
 
     return (
         <>
-            <ModalCenter>
+            <Toaster />
                 <div>
                     <FirstTitle>Cadastro Nacional da Pessoa Jurídica (CNPJ)</FirstTitle>
                 </div>
@@ -187,7 +192,6 @@ function SearchCnpj() {
                         }
                     </div>
                 </div>
-            </ModalCenter>
         {isLoading && (
             <Loading />
         )}
