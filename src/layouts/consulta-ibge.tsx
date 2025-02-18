@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import FirstTitle from "@/components/first-title"
 import Loading from "@/components/loading"
-import { IbgeData } from "@/interfaces/ibge"
+import type { IbgeData } from "@/interfaces/ibge"
 import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/hooks/use-toast"
 
@@ -71,7 +71,7 @@ function SearchIbge() {
         try {
             if(state === '') {
                 toast({
-                    description: `Por favor, selecione um estado`
+                    description: 'Por favor, selecione um estado'
                 })
                 return
             }
@@ -115,7 +115,7 @@ function SearchIbge() {
             </div>
             <div className="flex items-center justify-center">
                 {modalOpen && (
-                    <div className="p-2 border border-gray-200 overflow-y-scroll max-h-[30rem]">
+                    <div className="p-2 border border-gray-200 dark:border-gray-800 overflow-y-scroll max-h-[30rem]">
                         <Table className="max-h-full">
                             <TableHeader>
                                 <TableRow>

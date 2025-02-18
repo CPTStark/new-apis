@@ -1,5 +1,5 @@
-import { ChangeEvent, useState } from "react";
-import { CepData } from '../interfaces/cep'
+import { useState, type ChangeEvent } from "react";
+import type { CepData } from '../interfaces/cep'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
@@ -77,7 +77,7 @@ function SearchCep() {
                             <CardHeader>
                                 <CardTitle>Resultado da consulta CEP:</CardTitle>
                                 <CardDescription>{dataCep?.cep}</CardDescription>
-                                <div className="border-b-2 border-gray-300"></div>
+                                <div className="border-b-2 border-gray-300 dark:border-gray-700">{}</div>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-3">
                                 <div className="bg-cardcard p-2 rounded-lg">

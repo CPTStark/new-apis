@@ -1,11 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import { useState, type ChangeEvent } from "react";
 // import { useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import Loading from "@/components/loading";
-import { CnpjData } from '../interfaces/cnpj'
+import type { CnpjData } from '../interfaces/cnpj'
 import FirstTitle from "@/components/first-title";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
@@ -86,20 +86,20 @@ function SearchCnpj() {
                                         <CardHeader>
                                             <CardTitle>{dadosCnpj.razao_social}</CardTitle>
                                             <CardDescription>Dados da busca do CNPJ</CardDescription>
-                                            <div className="border-b-2 border-gray-300"></div>
+                                            <div className="border-b-2 border-gray-300 dark:border-gray-800">{}</div>
                                         </CardHeader>
                                         <CardContent className="flex flex-col gap-3">
-                                            <div className="bg-gray-100 p-2 rounded-lg">
+                                            <div className="bg-gray-100 dark:bg-slate-900 p-2 rounded-lg">
                                                 <p>CNPJ</p>
-                                                <span className="text-sm text-slate-700">{dadosCnpj.cnpj ?? 'Indefinido'}</span>
+                                                <span className="text-sm text-slate-700 dark:text-slate-500">{dadosCnpj.cnpj ?? 'Indefinido'}</span>
                                             </div>
-                                            <div className="bg-gray-100 p-2 rounded-lg">
+                                            <div className="bg-gray-100 dark:bg-slate-900 p-2 rounded-lg">
                                                 <p>Situação Cadastral</p>
-                                                <span className="text-sm text-slate-700">{dadosCnpj.descricao_situacao_cadastral ?? 'Indefinido'}</span>
+                                                <span className="text-sm text-slate-700 dark:text-slate-500">{dadosCnpj.descricao_situacao_cadastral ?? 'Indefinido'}</span>
                                             </div>
-                                            <div className="bg-gray-100 p-2 rounded-lg">
+                                            <div className="bg-gray-100 dark:bg-slate-900 p-2 rounded-lg">
                                                 <p>UF</p>
-                                                <span className="text-sm text-slate-700">{dadosCnpj.uf ?? 'Indefinido'}</span>
+                                                <span className="text-sm text-slate-700 dark:text-slate-500">{dadosCnpj.uf ?? 'Indefinido'}</span>
                                             </div>
                                         </CardContent>
                                         <CardFooter className="flex items-center justify-center">

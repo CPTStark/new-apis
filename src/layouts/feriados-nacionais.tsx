@@ -9,7 +9,7 @@ import {
 import { TableBody, TableCell, TableHead } from '@/components/ui/table'
 import { Button } from "@/components/ui/button"
 import Loading from "@/components/loading"
-import { Holidays } from "@/interfaces/holidays"
+import type { Holidays } from "@/interfaces/holidays"
 import { Table, TableHeader, TableRow } from "@/components/ui/table"
 import FirstTitle from "@/components/first-title"
 import dayjs from 'dayjs'
@@ -29,7 +29,7 @@ function NationalHolidays() {
 
     const years = []
 
-    for(let year = 2000; year <= 2100; year++) {
+    for(let year = 1900; year <= 2199; year++) {
         years.push(year)
     }
 
@@ -85,7 +85,7 @@ function NationalHolidays() {
                     )}
                     {tableHolidays && (
                         <div className="w-full h-full">
-                            <div className="w-[75%] m-auto h-auto p-2 border border-gray-300 rounded-md">
+                            <div className="w-[75%] m-auto h-auto p-2 border border-gray-300 dark:border-gray-800 rounded-md">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
@@ -100,7 +100,7 @@ function NationalHolidays() {
                                             const weekDay = dayjs(data.date).format('dddd')
 
                                             return (
-                                                <TableRow>
+                                                <TableRow key={data?.date}>
                                                     <TableCell>{data?.date.split('-').reverse().join('/')}</TableCell>
                                                     <TableCell className="capitalize">{weekDay}</TableCell>
                                                     <TableCell>{data?.name}</TableCell>
