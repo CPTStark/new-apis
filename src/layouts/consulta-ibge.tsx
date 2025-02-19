@@ -82,7 +82,9 @@ function SearchIbge() {
             setCities(data)
             setModalOpen(true)
         } catch (err) {
-            console.log(err)
+            toast({
+                description: `Ocorreu um erro ao buscar os dados: ${err}`
+            })
         } finally {
             setIsLoading(false)
         }

@@ -49,7 +49,7 @@ function SearchCep() {
             setIsModalCep(true)
         } catch (err) {
             toast({
-                description: `Erro: ${err}`
+                description: `Ocorreu um erro ao buscar os dados: ${err}`
             })
         } finally {
             setIsLoading(false)

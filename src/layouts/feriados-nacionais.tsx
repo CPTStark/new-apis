@@ -15,6 +15,7 @@ import FirstTitle from "@/components/first-title"
 import dayjs from 'dayjs'
 
 import 'dayjs/locale/pt-br'
+import { toast } from "@/hooks/use-toast";
 
 dayjs.locale('pt-br')
 
@@ -51,7 +52,9 @@ function NationalHolidays() {
             setIsTableHolidays(true)
 
         } catch(err) {
-            console.log(err)
+            toast({
+                description: `Ocorreu um erro ao buscar os dados: ${err}`
+            })
         } finally {
             setIsLoading(false)
         }
