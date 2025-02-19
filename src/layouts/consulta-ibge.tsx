@@ -20,12 +20,12 @@ interface Estados {
 function SearchIbge() {
     const [isLoading, setIsLoading] = useState(false);
     const [state, setStateSelect] = useState('');
-    const [cities, setCities ] = useState<IbgeData[] | null>(null);
+    const [cities, setCities] = useState<IbgeData[] | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [inputValue, setInputValue] = useState('')
 
     const { toast } = useToast()
-      
+
     const estados: Estados[] = [
         { id: 1, name: "Acre", uf: "AC" },
         { id: 2, name: "Alagoas", uf: "AL" },
@@ -63,13 +63,13 @@ function SearchIbge() {
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     };
-      
+
     async function getCitys() {
         setIsLoading(true)
         setModalOpen(false)
 
         try {
-            if(state === '') {
+            if (state === '') {
                 toast({
                     description: 'Por favor, selecione um estado'
                 })
@@ -90,32 +90,33 @@ function SearchIbge() {
 
     return (
         <>
-            <Toaster/>
+            <Toaster />
             <div>
                 <FirstTitle>Instituto Brasileiro de Geografia e Estatística (Código IBGE)</FirstTitle>
             </div>
             <div className="w-full flex items-center justify-center gap-4">
-                <div className="flex items-center justify-center w-[20%]">
-                    <Label className="w-60">Selecione o estado:</Label>
-                    <Select onValueChange={handleChange}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Estado" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {estados.map((item) => {
-                                return <SelectItem key={item.id} value={item.uf}>{item.name}</SelectItem>
-                            })}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="flex gap-4">
-                    <Input onChange={(event) => handleInput(event)} placeholder="Filtre pela cidade (Opcional)" className="w-[200px]" />
+                <div className="grid grid-cols-1 md:grid-cols-[2fr_2fr_1fr] gap-2 items-center">
+                    <div className="grid-cols-1 md:flex items-center gap-2">
+                        <Label className="w-60">Selecione o estado:</Label>
+                        <Select onValueChange={handleChange}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Estado" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {estados.map((item) => {
+                                    return <SelectItem key={item.id} value={item.uf}>{item.name}</SelectItem>
+                                })}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <Input onChange={(event) => handleInput(event)} placeholder="Filtre pela cidade (Opcional)" />
                     <Button onClick={getCitys}>Buscar</Button>
                 </div>
             </div>
             <div className="flex items-center justify-center">
                 {modalOpen && (
-                    <div className="p-2 border border-gray-200 dark:border-gray-800 overflow-y-scroll max-h-[30rem]">
+                    <div className="p-2 border border-gray-200 dark:border-gray-800 overflow-y-scroll max-h-[30rem] max-w-[60%]">
                         <Table className="max-h-full">
                             <TableHeader>
                                 <TableRow>
@@ -124,26 +125,26 @@ function SearchIbge() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                            {cities
-                                ?.filter((item) => 
-                                    inputValue === '' || item?.nome.toLowerCase().includes(inputValue.toLowerCase())
-                                )
-                                .map((item) => (
-                                    <TableRow key={item?.nome}>
-                                        <TableCell>{item?.nome}</TableCell>
-                                        <TableCell>{item?.codigo_ibge}</TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
+                                {cities
+                                    ?.filter((item) =>
+                                        inputValue === '' || item?.nome.toLowerCase().includes(inputValue.toLowerCase())
+                                    )
+                                    .map((item) => (
+                                        <TableRow key={item?.nome}>
+                                            <TableCell>{item?.nome}</TableCell>
+                                            <TableCell>{item?.codigo_ibge}</TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
                         </Table>
                     </div>
                 )}
             </div>
-                {!modalOpen && (
-                    <div className="w-full h-full flex items-center justify-center">
-                        <img className="w-72" draggable="false" src="undraw_code_thinking_re_gka2.svg" alt="" />
-                    </div>
-                )}      
+            {!modalOpen && (
+                <div className="w-full h-full flex items-center justify-center">
+                    <img className="w-72" draggable="false" src="undraw_code_thinking_re_gka2.svg" alt="" />
+                </div>
+            )}
             {isLoading && (
                 <Loading />
             )}

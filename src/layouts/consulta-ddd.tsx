@@ -1,8 +1,6 @@
 import FirstTitle from "@/components/first-title";
 import Loading from "@/components/loading";
-// import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -94,7 +92,7 @@ function ConsultaDdd() {
             <div className="flex items-center justify-center">
                 {modalOpen && (
                     <div className="p-2 border border-gray-200 overflow-y-scroll max-h-[30rem]">
-                        <Table className="max-h-full">
+                        <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Estado</TableHead>
@@ -105,6 +103,7 @@ function ConsultaDdd() {
                                 {dataDdd?.map((item) => (
                                     <TableRow key={item?.state}>
                                         <TableCell>{item?.state}</TableCell>
+                                        <TableCell>{item?.cities}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -117,18 +116,6 @@ function ConsultaDdd() {
                     <img className="w-72" draggable="false" src="undraw_contact-us_kcoa.svg" alt="" />
                 </div>
             )}
-            {
-                modalOpen && (
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>DDD</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            teste
-                        </CardContent>
-                    </Card>
-                )
-            }
             {isLoading && (
                 <Loading />
             )}

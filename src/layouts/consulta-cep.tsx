@@ -21,7 +21,7 @@ function SearchCep() {
         const formattedCep = onlyNumbers.replace(/^(\d{5})(\d)/, '$1-$2');
         return { onlyNumbers, formattedCep };
     }
-    
+
 
     function getCepInput(event: ChangeEvent<HTMLInputElement>) {
         const inputValue = event.target.value;
@@ -33,12 +33,12 @@ function SearchCep() {
     }
 
     async function getCep() {
-        if(cepInputValue === '') {
+        if (cepInputValue === '') {
             toast({
                 description: 'Digite um CEP válido'
             })
             return
-        } 
+        }
 
         setIsLoading(true);
 
@@ -47,7 +47,7 @@ function SearchCep() {
             const data = await response.json()
             setIsDataCep(data)
             setIsModalCep(true)
-        } catch(err) {
+        } catch (err) {
             toast({
                 description: `Erro: ${err}`
             })
@@ -56,15 +56,17 @@ function SearchCep() {
         }
     }
 
-   return (
-    <>
+    return (
+        <>
             <div>
                 <FirstTitle>Código de Endereçamento Postal (CEP)</FirstTitle>
             </div>
             <div className="w-full h-full flex flex-col gap-12">
-                <div className="flex items-center justify-center gap-3">
-                    <Input onChange={getCepInput} className="w-[24%]" placeholder="Digite um CEP..." minLength={9} maxLength={9} />
-                    <Button onClick={getCep}>Buscar</Button>
+                <div className="flex items-center justify-center">
+                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-3">
+                        <Input onChange={getCepInput} placeholder="Digite um CEP..." minLength={9} maxLength={9} />
+                        <Button onClick={getCep}>Buscar</Button>
+                    </div>
                 </div>
                 <div className="w-full h-full">
                     {!modalCep && (
@@ -73,11 +75,11 @@ function SearchCep() {
                         </div>
                     )}
                     {modalCep && (
-                        <Card className="w-[400px] m-auto">
+                        <Card className="md:w-[400px] m-auto">
                             <CardHeader>
                                 <CardTitle>Resultado da consulta CEP:</CardTitle>
                                 <CardDescription>{dataCep?.cep}</CardDescription>
-                                <div className="border-b-2 border-gray-300 dark:border-gray-700">{}</div>
+                                <div className="border-b-2 border-gray-300 dark:border-gray-700">{ }</div>
                             </CardHeader>
                             <CardContent className="flex flex-col gap-3">
                                 <div className="bg-cardcard p-2 rounded-lg">
@@ -114,12 +116,12 @@ function SearchCep() {
                     )}
                 </div>
             </div>
-        {isLoading && (
-            <Loading/>
-        )}
-        <Toaster/>
-    </>
-   ) 
+            {isLoading && (
+                <Loading />
+            )}
+            <Toaster />
+        </>
+    )
 }
 
 export default SearchCep

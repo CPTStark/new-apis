@@ -6,7 +6,7 @@ interface FirstTitleProps extends ComponentProps<'h1'> {
 
 function FirstTitle(props: FirstTitleProps) {
     return (
-        <h1 {...props} className="text-2xl text-center">
+        <h1 {...props} className="text-xl md:text-2xl text-center">
             {props.children}
         </h1>
     )

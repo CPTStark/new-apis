@@ -85,7 +85,7 @@ function NationalHolidays() {
                     )}
                     {tableHolidays && (
                         <div className="w-full h-full">
-                            <div className="w-[75%] m-auto h-auto p-2 border border-gray-300 dark:border-gray-800 rounded-md">
+                            <div className="max-w-[75%] m-auto h-auto border border-gray-300 dark:border-gray-800 rounded-md">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
